@@ -1,0 +1,20 @@
+name: PNPM CI Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # node 보다 pnpm 을 먼저 세팅. 버전 지정, pnpm 전용 저장소 캐싱 준비
+      # 로컬과 동일한 버전으로 맞추기
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: time pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm run build
