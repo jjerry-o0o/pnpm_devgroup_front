@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/index'
+} from '@/components/ui'
 
 interface AppHeaderProps {
     toggleDark: () => void;
