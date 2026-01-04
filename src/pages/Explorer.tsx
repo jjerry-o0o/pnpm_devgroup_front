@@ -39,7 +39,6 @@ const Explorer = () => {
                 const result = res.data;
                 setSupports(result.info);
                 setPageInfo(result.pageResponse);
-                console.log(result);
             })
         } catch (error) {
             console.log(error)
@@ -122,6 +121,11 @@ const Explorer = () => {
 
                             </div>
                         )})}
+                        {[...Array(pageInfo?.totalPages)].map((_, index: number) => {
+                            return (
+                                ++index == pageInfo?.currentPage ? <span className="border">{index}</span> : <span>{index}</span>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
