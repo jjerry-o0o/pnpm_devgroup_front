@@ -13,11 +13,11 @@ import {
   FaFire,
   GiPlasticDuck,
 } from '@/assets/icons';
-import { getSearchInfo, getTop10Tags, getUseCategories } from '@/api/infoApi';
 import { SubBox, Button } from '@/components';
 import { Separator } from '@/components/ui';
+import { useAvailableCategories, useSearchInfo, useTopTags } from '@/api/useInfoApi';
 
-import type { CategoryInfo, pagingInfo, supportInfo, TagInfo } from '@/types/info';
+import type { CategoryInfo, pagingInfo, searchRequestDto, supportInfo, TagInfo } from '@/types/info';
 
 const Explorer = () => {
   const [categories, setCategories] = useState<CategoryInfo[]>();
@@ -30,32 +30,23 @@ const Explorer = () => {
     { id: 'sortName', value: 'name', label: '이름순', Icon: FaSortAlphaDown },
   ];
 
+  const request: searchRequestDto = {
+    keyword: '',
+    categoryName: '',
+    pageRequest: { page: 1, size: 9 },
+    searchType: 'title',
+    orderType: 'star',
+  };
+  const { data: categoriesData } = useAvailableCategories();
+  const { data: topTagsData } = useTopTags();
+  const { data: searchInfoData } = useSearchInfo(request);
+
   useEffect(() => {
-    try {
-      getUseCategories().then(res => {
-        const result = res.data;
-        setCategories(result);
-      });
-
-      getTop10Tags().then(res => {
-        const result = res.data;
-        const TAG_COLORS = ['badge-primary', 'badge-success', 'badge-info', 'badge-warning', 'badge-secondary'];
-        const tagInfoWithColor = result.map((tagInfo, index) => ({
-          ...tagInfo,
-          color: TAG_COLORS[index % TAG_COLORS.length],
-        }));
-        setTopTags(tagInfoWithColor);
-      });
-
-      getSearchInfo().then(res => {
-        const result = res.data;
-        setSupports(result.info);
-        setPageInfo(result.pageResponse);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    setCategories(categoriesData);
+    setTopTags(topTagsData);
+    setSupports(searchInfoData?.info);
+    setPageInfo(searchInfoData?.pageResponse);
+  }, [categoriesData, topTagsData, searchInfoData]);
 
   return (
     <section className="w-full flex flex-col">

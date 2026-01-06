@@ -17,8 +17,8 @@ import {
   GiPlasticDuck,
 } from '@/assets/icons';
 import { categoryBadgeColor } from '@/utils/formatUtils';
-import { getLimitRepositoryList } from '@/api/infoApi';
 import { SubBox, Button } from '@/components';
+import { useLimitRepositoryList } from '@/api/useInfoApi';
 
 import type { RepositoryInfo } from '@/types/info';
 
@@ -27,20 +27,15 @@ const Main = () => {
   const count = 2;
   const [repositoryList, setRepositoryList] = useState<RepositoryInfo[]>([]);
 
+  const { data } = useLimitRepositoryList(count);
+
   const goToDetail = async (id: number) => {
     navigate(`/page/info/${id}`);
   };
 
   useEffect(() => {
-    try {
-      getLimitRepositoryList(count).then(res => {
-        const result = res.data;
-        setRepositoryList(result.info);
-      });
-    } catch (error) {
-      console.log('error : ', error);
-    }
-  }, []);
+    if (data) setRepositoryList(data.info);
+  }, [data]);
 
   return (
     <>

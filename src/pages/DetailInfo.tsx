@@ -14,16 +14,18 @@ import {
   IoDocumentText,
 } from '@/assets/icons';
 import { Separator } from '@/components/ui';
-import { getRepositoryInfo } from '@/api/infoApi';
+import { useRepositoryInfo } from '@/api/useInfoApi';
 
 import type { RepositoryDetailInfo } from '@/types/info';
-// import {getRepositoryInfo, postLikeRepository} from "@/api/infoApi";
 
 const DetailInfo = () => {
   const { id } = useParams<string>();
   const [repositoryDetailInfo, setRepositoryDetailInfo] = useState<RepositoryDetailInfo>();
   const likedStorageKey: string = 'repository_like_list';
   const [likedStatus, setLikedStatus] = useState<boolean>(false);
+
+  // TODO: id 값 있다고 강제지정 했는데 추후 바꾸는게 좋을지 고민...
+  const { data } = useRepositoryInfo(id!);
 
   const toggleLiked = () => {
     const localStorageItem = localStorage.getItem(likedStorageKey);
@@ -42,29 +44,11 @@ const DetailInfo = () => {
       localStorage.setItem(likedStorageKey, JSON.stringify(newLikedList));
       setLikedStatus(true);
     }
-    // TODO : like를 토글로 해도되는지... api 수정해야할텐데..테이블도...ㅠ
-    //      - 아니면 likeCount 를 -1 도 가능한지....
-    // postLikeRepository(id)
-    // .then(res => {
-    //     if (res.data) {
-    //         localStorage.setItem('repositoryInfo.like', 'liked');
-    //         Liked.current = true;
-    //     }
-    // })
   };
 
   useEffect(() => {
-    try {
-      if (id) {
-        getRepositoryInfo(id).then(res => {
-          console.log('res : ', res.data);
-          setRepositoryDetailInfo(res.data);
-        });
-      }
-    } catch (error) {
-      console.log('error : ', error);
-    }
-  }, []);
+    if (data) setRepositoryDetailInfo(data);
+  }, [data]);
 
   return (
     <div className="">
