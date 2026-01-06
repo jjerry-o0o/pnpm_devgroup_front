@@ -1,5 +1,5 @@
-export { Skeleton } from "./skeleton.tsx"
-export { Separator } from "./separator.tsx"
+export { Skeleton } from './skeleton';
+export { Separator } from './separator';
 export {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,4 +7,4 @@ export {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';

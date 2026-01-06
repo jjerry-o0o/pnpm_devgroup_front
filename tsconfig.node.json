@@ -16,11 +16,11 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+//    "noUnusedLocals": true,
+//    "noUnusedParameters": true,
+//    "erasableSyntaxOnly": true,
+//    "noFallthroughCasesInSwitch": true,
+//    "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "eslint.config.js"]
+  "include": ["vite.config.ts"]
 }

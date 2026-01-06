@@ -1,5 +1,3 @@
-const NavModal = () => {
+const NavModal = () => {};
 
-}
-
-export {NavModal}
+export { NavModal };
